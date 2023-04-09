@@ -85,7 +85,7 @@ public class MyFrame extends JFrame implements ActionListener{
         
         //show Delivery Table
         addDelivery = new JButton("ADD DELIVERY");
-        addDelivery.setBounds((int) AppDimentions.REDPANELDIMENSIONS.getWidth() - 168, 
+        addDelivery.setBounds((int) AppDimentions.REDPANELDIMENSIONS.getWidth() - 162, 
                                 (int) (AppDimentions.REDPANELDIMENSIONS.getHeight()) - 200, 
                                 (int) AppDimentions.ADDBUTTONDIMENSIONS.getWidth(), 
                                 (int) AppDimentions.ADDBUTTONDIMENSIONS.getHeight());
@@ -102,7 +102,7 @@ public class MyFrame extends JFrame implements ActionListener{
 
         //show Delivery Table
         registerNames = new JButton("REGISTER NAMES");
-        registerNames.setBounds((int) AppDimentions.REDPANELDIMENSIONS.getWidth() - 362, 
+        registerNames.setBounds((int) AppDimentions.REDPANELDIMENSIONS.getWidth() - 356, 
                                 (int) (AppDimentions.REDPANELDIMENSIONS.getHeight()) - 200, 
                                 (int) AppDimentions.REGISTRYBUTTONDIMENSIONS.getWidth(), 
                                 (int) AppDimentions.REGISTRYBUTTONDIMENSIONS.getHeight());
@@ -119,7 +119,7 @@ public class MyFrame extends JFrame implements ActionListener{
         
         //create unlock Button
         unlockButton = new JButton("UNLOCK");
-        unlockButton.setBounds((int) AppDimentions.REDPANELDIMENSIONS.getWidth() - 282, 
+        unlockButton.setBounds((int) AppDimentions.REDPANELDIMENSIONS.getWidth() - 276, 
                                 (int) (AppDimentions.REDPANELDIMENSIONS.getHeight()) - 200, 
                                 (int) AppDimentions.REGISTRYBUTTONDIMENSIONS.getWidth(), 
                                 (int) AppDimentions.REGISTRYBUTTONDIMENSIONS.getHeight());
@@ -139,7 +139,7 @@ public class MyFrame extends JFrame implements ActionListener{
         //add scroll to mainPanel
         JScrollPane scrollPane = new JScrollPane(parentPanel);
         scrollPane.setBounds(
-            38,
+            44,
             (int) AppDimentions.REDPANELDIMENSIONS.getHeight()/4 ,
             deliveryPanel.getWidth() - 87,
             (int) AppDimentions.REDPANELDIMENSIONS.getHeight()/2 - 20);
@@ -154,7 +154,7 @@ public class MyFrame extends JFrame implements ActionListener{
         //create Red Panel Label
         redPanJLabel = new JLabel("DELIVERY NAMES");
         redPanJLabel.setFont(new Font("Arial", Font.BOLD, 18)); 
-        redPanJLabel.setBounds( 38, (int) AppDimentions.REDPANELDIMENSIONS.getHeight()/4 - 57, scrollPane.getWidth(), 40);
+        redPanJLabel.setBounds( 44, (int) AppDimentions.REDPANELDIMENSIONS.getHeight()/4 - 57, scrollPane.getWidth(), 40);
         redPanJLabel.setLayout(new FlowLayout(FlowLayout.CENTER));
         redPanJLabel.setBackground(new Color(56, 195, 255));
         redPanJLabel.setForeground(Color.white);
