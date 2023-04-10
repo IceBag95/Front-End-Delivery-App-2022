@@ -15,7 +15,7 @@ public class MyFrame extends JFrame implements ActionListener{
     
     JLabel bannerPanLabel, redPanJLabel;
 
-    JPanel bannerPanel, deliveryPanel, parentPanel, childPanel;
+    JPanel totalPanel, orderPanel, bannerPanel, deliveryPanel, parentPanel, childPanel;
 
     JButton addDelivery, registerNames, unlockButton;
 
@@ -32,7 +32,7 @@ public class MyFrame extends JFrame implements ActionListener{
         pack();
         setResizable(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        getContentPane().setBackground(Color.WHITE);
+        getContentPane().setBackground(new Color(222, 220, 220));
         setBackground(Color.RED); //title bar color
         setLayout(null);
         AddComponents();
@@ -56,6 +56,23 @@ public class MyFrame extends JFrame implements ActionListener{
         Font bannerPanLabelFont = new Font("Arial", Font.BOLD + Font.ITALIC, 100);
         bannerPanLabel.setFont(bannerPanLabelFont);
         bannerPanel.add(bannerPanLabel);
+
+
+        //create panel for totals
+        totalPanel = new JPanel();
+        totalPanel.setLayout(null);
+        totalPanel.setBounds(10, 200, (int) AppDimentions.TOTALPANELDIMENSIONS.getWidth() - 300, (int) AppDimentions.TOTALPANELDIMENSIONS.getHeight());
+        totalPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        totalPanel.setBackground(new Color(237, 237, 237));
+
+
+        //create panel foρ orders
+        orderPanel = new JPanel();
+        orderPanel.setLayout(null);
+        orderPanel.setBounds((int) AppDimentions.FRAMEDIMENSIONS.getWidth() -  ((int) AppDimentions.ORDERPANELDIMENSIONS.getWidth() + 420), 200, (int) AppDimentions.ORDERPANELDIMENSIONS.getWidth(), (int) AppDimentions.ORDERPANELDIMENSIONS.getHeight());
+        orderPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        orderPanel.setBackground(new Color(237, 237, 237));
+
 
         //create panel foρ Delivery table
         deliveryPanel = new JPanel();
@@ -164,8 +181,10 @@ public class MyFrame extends JFrame implements ActionListener{
         deliveryPanel.add(redPanJLabel);               
         
 
-        this.getContentPane().setBackground(new Color(222, 220, 220));
+        
         //add components to contentPane
+        this.getContentPane().add(totalPanel);
+        this.getContentPane().add(orderPanel);
         this.getContentPane().add(deliveryPanel);
         this.getContentPane().add(bannerPanel);
 
