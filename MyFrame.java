@@ -15,9 +15,9 @@ public class MyFrame extends JFrame implements ActionListener{
     
     JLabel bannerPanLabel, redPanJLabel;
 
-    JPanel totalPanel, orderPanel, bannerPanel, deliveryPanel, parentPanel, childPanel;
+    JPanel totalPanel, orderPanel, bannerPanel, deliveryPanel, parentPanel, childPanel, orderParentPanel;
 
-    JButton addDelivery, registerNames, unlockButton;
+    JButton addDelivery, registerNames, unlockButton, newOrderButton;
 
     static ArrayList<String> names; 
 
@@ -66,6 +66,18 @@ public class MyFrame extends JFrame implements ActionListener{
         totalPanel.setBackground(new Color(237, 237, 237));
 
 
+
+
+        /*
+            
+        ===========================
+        *** ORDER PANEL STAFF ***
+        ===========================
+        
+        */
+
+
+
         //create panel foρ orders
         orderPanel = new JPanel();
         orderPanel.setLayout(null);
@@ -73,6 +85,49 @@ public class MyFrame extends JFrame implements ActionListener{
         orderPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         orderPanel.setBackground(new Color(237, 237, 237));
 
+
+        //create panel for order panel scrollPane
+        orderParentPanel = new JPanel();
+        orderParentPanel.setBorder(BorderFactory.createEmptyBorder());
+        orderParentPanel.setBackground(Color.WHITE);
+
+
+        //add scroll to orderPanel
+        JScrollPane orderScrollPane = new JScrollPane(orderParentPanel);
+        orderScrollPane.setBounds(
+            20,
+            20 ,
+            (int) AppDimentions.ORDERSCROLLPANEDIMENSIONS.getWidth(),
+            (int) AppDimentions.ORDERSCROLLPANEDIMENSIONS.getHeight());
+        orderScrollPane.setBorder(BorderFactory.createEtchedBorder());
+        orderScrollPane.setMaximumSize(AppDimentions.SCROLLPANEDIMENSIONS);
+        orderScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        orderScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        orderPanel.add(orderScrollPane);
+
+
+        //add new order entry to scrollPane
+        newOrderButton = new JButton("ENTER NEW ORDER");
+        newOrderButton.setBounds((int) (AppDimentions.ORDERSCROLLPANEDIMENSIONS.getWidth()/2 - AppDimentions.NEWORDERBUTTONDIMENSIONS.getWidth()/2), (int) (AppDimentions.ORDERSCROLLPANEDIMENSIONS.getHeight() + AppDimentions.NEWORDERBUTTONDIMENSIONS.getHeight() - 30),
+        (int) AppDimentions.NEWORDERBUTTONDIMENSIONS.getWidth(), (int) AppDimentions.NEWORDERBUTTONDIMENSIONS.getHeight());
+        newOrderButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        newOrderButton.setMargin(new Insets(0, 0, 0, 0));
+        newOrderButton.setBackground(new Color(21, 189, 180));
+        newOrderButton.setForeground(Color.WHITE);
+        newOrderButton.setFocusable(false);
+        newOrderButton.setBorderPainted(false);
+        newOrderButton.setFont(new Font("Arial", Font.BOLD, 30));
+        newOrderButton.setEnabled(false);
+        newOrderButton.addActionListener(this);
+        orderPanel.add(newOrderButton);
+
+        /*
+            
+        =============================
+        *** DELIVERY PANEL STAFF ***
+        =============================
+        
+        */
 
         //create panel foρ Delivery table
         deliveryPanel = new JPanel();
@@ -106,7 +161,7 @@ public class MyFrame extends JFrame implements ActionListener{
                                 (int) (AppDimentions.REDPANELDIMENSIONS.getHeight()) - 200, 
                                 (int) AppDimentions.ADDBUTTONDIMENSIONS.getWidth(), 
                                 (int) AppDimentions.ADDBUTTONDIMENSIONS.getHeight());
-        addDelivery.setPreferredSize(AppDimentions.ADDBUTTONDIMENSIONS);
+        //addDelivery.setPreferredSize(AppDimentions.ADDBUTTONDIMENSIONS);
         addDelivery.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         addDelivery.setMargin(new Insets(0, 0, 0, 0));
         addDelivery.setBackground(new Color(21, 189, 180));
@@ -239,6 +294,7 @@ public class MyFrame extends JFrame implements ActionListener{
             addDelivery.setVisible(false);
             registerNames.setVisible(false);
             unlockButton.setVisible(true);
+            newOrderButton.setEnabled(true);
 
             revalidate();
             repaint();
@@ -272,6 +328,7 @@ public class MyFrame extends JFrame implements ActionListener{
             addDelivery.setVisible(true);
             registerNames.setVisible(true);
             unlockButton.setVisible(false);
+            newOrderButton.setEnabled(false);
             revalidate();
             repaint();
         }
