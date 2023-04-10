@@ -25,6 +25,7 @@ public class MyFrame extends JFrame implements ActionListener{
 
     static boolean flag = false;
 
+    static int newOrederTimesClicked = 0;
 
     public MyFrame(){
         setPreferredSize(AppDimentions.FRAMEDIMENSIONS);
@@ -331,6 +332,12 @@ public class MyFrame extends JFrame implements ActionListener{
             newOrderButton.setEnabled(false);
             revalidate();
             repaint();
+        }
+
+        if(command.equalsIgnoreCase("ENTER NEW ORDER")){
+            new NewEntry().setVisible(true);
+            this.setEnabled(false);
+
         }
     }
 
