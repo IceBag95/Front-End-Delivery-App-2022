@@ -25,7 +25,9 @@ public class MyFrame extends JFrame implements ActionListener{
 
     static boolean flag = false;
 
-    static int newOrederTimesClicked = 0;
+    //static int newOrederTimesClicked = 0;
+
+    static boolean isEnabled = true;
 
     public MyFrame(){
         setPreferredSize(AppDimentions.FRAMEDIMENSIONS);
@@ -248,10 +250,6 @@ public class MyFrame extends JFrame implements ActionListener{
         
     }
 
-    public void DisableAddDeliveryButtonAndRegisrtyButton(){
-        addDelivery.setEnabled(false);
-        registerNames.setEnabled(false);
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -291,31 +289,42 @@ public class MyFrame extends JFrame implements ActionListener{
                 currentDelivery.DisableAddButton();
                 currentDelivery.DisableDelButton();
             }
-            //DisableAddDeliveryButtonAndRegisrtyButton();
-            addDelivery.setVisible(false);
-            registerNames.setVisible(false);
-            unlockButton.setVisible(true);
-            newOrderButton.setEnabled(true);
+            if (workingNames.size() > 0){
+                //DisableAddDeliveryButtonAndRegisrtyButton();
+                addDelivery.setVisible(false);
+                registerNames.setVisible(false);
+                unlockButton.setVisible(true);
+                newOrderButton.setEnabled(true);
 
-            revalidate();
-            repaint();
+                revalidate();
+                repaint();
 
-            System.out.println("\nWorking names:");
-            for (int i = 0; i < workingNames.size(); i++){
-                System.out.println(workingNames.get(i));
+                System.out.println("\nWorking names:");
+                for (int i = 0; i < workingNames.size(); i++){
+                    System.out.println(workingNames.get(i));
+                }
+                System.out.println("\nRegistered names:");
+                for (int i = 0; i < childPanel.getComponentCount(); i++){
+                    System.out.println(names.get(i));
+                }
+                try {
+                    FileOutputStream fileOut1 = new FileOutputStream("SavedNames.ser");
+                    ObjectOutputStream out1 = new ObjectOutputStream(fileOut1);
+                    out1.writeObject(names);
+                    out1.close();
+                    fileOut1.close();
+                } catch (IOException E) {
+                    E.printStackTrace();
+                }
             }
-            System.out.println("\nRegistered names:");
-            for (int i = 0; i < childPanel.getComponentCount(); i++){
-                System.out.println(names.get(i));
-            }
-            try {
-                FileOutputStream fileOut1 = new FileOutputStream("SavedNames.ser");
-                ObjectOutputStream out1 = new ObjectOutputStream(fileOut1);
-                out1.writeObject(names);
-                out1.close();
-                fileOut1.close();
-            } catch (IOException E) {
-                E.printStackTrace();
+            else{
+                JOptionPane.showMessageDialog(null, "At least one Delivery should be registered.", "No Delivery Registered", JOptionPane.WARNING_MESSAGE);
+                for (int i = 0; i< childPanel.getComponentCount(); i++){
+                    DeliveryNames currentDelivery = (DeliveryNames) childPanel.getComponent(i);
+                    currentDelivery.EnableTaskField();
+                    currentDelivery.EnableAddButton();
+                    currentDelivery.EnableDelButton();
+                }
             }
         }
 
@@ -335,8 +344,11 @@ public class MyFrame extends JFrame implements ActionListener{
         }
 
         if(command.equalsIgnoreCase("ENTER NEW ORDER")){
-            new NewEntry().setVisible(true);
+            /*NewEntry newentry = new NewEntry(this);
+            newentry.setVisible(true); */
+            new NewEntry(this).setVisible(true);
             this.setEnabled(false);
+            //isEnabled = this.isEnabled();
 
         }
     }
@@ -367,7 +379,12 @@ public class MyFrame extends JFrame implements ActionListener{
         }
     }
 
+
     public  static ArrayList<String> getNames(){
         return names;
+    }
+
+    public  static ArrayList<String> getWorkingNames(){
+        return workingNames;
     }
 }

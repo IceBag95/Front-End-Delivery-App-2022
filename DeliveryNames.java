@@ -26,6 +26,7 @@ public class DeliveryNames extends JPanel implements ActionListener {
     static ArrayList<String> checkednames = new ArrayList<String>();
     static int noclicks = 0;
     boolean flag = false;
+    static boolean atLeastOneObjectCreated = false;
     //static  ArrayList<String> registerednames = new ArrayList<String>();
     
     
@@ -35,8 +36,6 @@ public class DeliveryNames extends JPanel implements ActionListener {
         
         this.parentPanel = parentPanel;
         setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
-
-
         
         //create Add Button
         addButton = new JButton("REGISTER");
@@ -131,7 +130,6 @@ public class DeliveryNames extends JPanel implements ActionListener {
         }
 
         if(e.getActionCommand().equalsIgnoreCase("REGISTER")){
-            noclicks++;
             flag = true;
             checkednames.add(this.getTaskField().getText());
             addButton.setText("REMOVE");
@@ -139,7 +137,6 @@ public class DeliveryNames extends JPanel implements ActionListener {
         }
 
         if(e.getActionCommand().equalsIgnoreCase("REMOVE")){
-            if (MyFrame.getNames().size() == 0) noclicks--;
             flag = false;
             checkednames.remove(this.getTaskField().getText());
             addButton.setText("REGISTER");
