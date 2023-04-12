@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-//import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -11,7 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 
@@ -21,9 +22,11 @@ public class NewEntry extends JFrame implements ActionListener{
     JButton okButton, cancelButton;
     MyFrame mainFrame;
     String[] names;
-    JComboBox<String> namesBox;
+    JComboBox<String> namesBox, paymentBox;
     String selectedName;
     static Integer AA = 1;
+    JTextField amount;
+    Float currentamount;
 
     public NewEntry(MyFrame mf){
 
@@ -62,7 +65,7 @@ public class NewEntry extends JFrame implements ActionListener{
         //entryPanel.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 40));
         entryPanel.setLayout(null);
         entryPanel.setBackground(Color.WHITE);
-        entryPanel.setBounds(10, 10,960, 100);
+        entryPanel.setBounds(10, 10,660, 100);
 
 
         /*
@@ -83,7 +86,6 @@ public class NewEntry extends JFrame implements ActionListener{
         numberOfOrder.setBorder(BorderFactory.createEtchedBorder());
         numberOfOrder.setBackground(Color.WHITE);
         numberOfOrder.setOpaque(true);
-        //numberOfOrder.setHorizontalAlignment(SwingConstants.CENTER);
         numberOfOrder.setVerticalAlignment(SwingConstants.BOTTOM);
 
 
@@ -93,31 +95,48 @@ public class NewEntry extends JFrame implements ActionListener{
 
         JLabel wayOfPaymentLabel = new JLabel("Way of Payment:");
         wayOfPaymentLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        wayOfPaymentLabel.setBounds(20, 15, 30, 30);
+        wayOfPaymentLabel.setBounds(290, 15, 200, 30);
 
         JLabel amountLabel = new JLabel("Amount:");
         amountLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        amountLabel.setBounds(20, 15, 30, 30);
+        amountLabel.setBounds(510, 15, 130, 30);
 
+        /* 
         JLabel tipsLabel = new JLabel("Tips");
         tipsLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         tipsLabel.setBounds(20, 15, 30, 30);
+        */
+
+        amount = new JTextField();
+        amount.setBounds(510, 40, 130, 30);
+        amount.setText("#############");
+        amount.setEditable(false);
+        amount.setEnabled(false);
 
 
         namesBox = new JComboBox<String>(names);
         namesBox.insertItemAt("", 0);
         namesBox.setSelectedIndex(0);
-        namesBox.setBounds(70, 40, 200, 30);;
+        namesBox.setBounds(70, 40, 200, 30);
         namesBox.addActionListener(this);
 
+        String[] WOP = {"","Κάρτα","Μετρητά"};
+        paymentBox = new JComboBox<String>(WOP);
+        paymentBox.setSelectedIndex(0);
+        paymentBox.setBounds(290, 40, 200, 30);
+        paymentBox.addActionListener(this);
 
 
         //add elements to entryPanel
-        entryPanel.add(namesBox);
         entryPanel.add(numberOfOrderLabel);
         entryPanel.add(numberOfOrder);
-        entryPanel.add(deliveryNameLabel);
-
+        entryPanel.add(deliveryNameLabel); 
+        entryPanel.add(wayOfPaymentLabel);
+        entryPanel.add(amountLabel);
+        entryPanel.add(namesBox);
+        entryPanel.add(paymentBox);
+        entryPanel.add(amount);
+        
 
 
 
@@ -130,7 +149,7 @@ public class NewEntry extends JFrame implements ActionListener{
 
 
         okButton = new JButton("OK");
-        okButton.setBounds(350,120,100,30);
+        okButton.setBounds(200,120,100,30);
         okButton.setFocusable(false);
         okButton.setBorder(BorderFactory.createEtchedBorder());
         okButton.setBackground(new Color(114, 213, 75));
@@ -140,7 +159,7 @@ public class NewEntry extends JFrame implements ActionListener{
 
 
         cancelButton = new JButton("Cancel");
-        cancelButton.setBounds(550,120,100,30);
+        cancelButton.setBounds(380,120,100,30);
         cancelButton.setFocusable(false);
         cancelButton.setBorder(BorderFactory.createEtchedBorder());
         cancelButton.setBackground(new Color(220, 27, 21));
@@ -148,7 +167,9 @@ public class NewEntry extends JFrame implements ActionListener{
         cancelButton.setBorderPainted(false);
         cancelButton.addActionListener(this);
 
-        this. getContentPane().add(entryPanel);
+
+
+        this.getContentPane().add(entryPanel);
         this.getContentPane().add(okButton);
         this.getContentPane().add(cancelButton);
 
@@ -157,15 +178,55 @@ public class NewEntry extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
+        /*if(command.equalsIgnoreCase("OK")){
+            if (amount.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Invalid Price.", "", JOptionPane.WARNING_MESSAGE);
+            } 
+            else {
+                String pattern = "^[0-9,.]*$";
+                if (amount.getText().matches(pattern)) {
+                    Float currentamount = Float.parseFloat(amount.getText().trim());
+                    if(currentamount > 0){
+                        //staff must be added
+                        AA++;
+                        mainFrame.setEnabled(true);
+                        this.dispose();
+                    }
+                    else JOptionPane.showMessageDialog(null, "Invalid Price.", "", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid Price.", "", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }*/
+
         if(command.equalsIgnoreCase("OK")){
-            
-            //staff must be added
-            AA++;
-            mainFrame.setEnabled(true);
-            this.dispose();
-
+            if (amount.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Invalid Price.", "", JOptionPane.WARNING_MESSAGE);
+            } 
+            else {
+                currentamount = 0f;
+                if(paymentBox.getSelectedItem().toString().equals("Μετρητά")){
+                    try{
+                        currentamount = Float.parseFloat(amount.getText().trim());
+                    }
+                    catch (NumberFormatException nfe){
+                        JOptionPane.showMessageDialog(null, "Invalid Price.", "", JOptionPane.WARNING_MESSAGE);
+                    }
+                    if(currentamount > 0 ){
+                        AA++;
+                        mainFrame.setEnabled(true);
+                        this.dispose();
+                    }
+                }
+                else if(paymentBox.getSelectedItem().toString().equals("Κάρτα")){
+                    AA++;
+                    mainFrame.setEnabled(true);
+                    this.dispose();
+                }
+                else JOptionPane.showMessageDialog(null, "No Delivery Name Selected.", "", JOptionPane.WARNING_MESSAGE);
+                System.out.println("Current number: " + currentamount);
+            }
         }
-
         if(command.equalsIgnoreCase("Cancel")){
             
             //staff must be added
@@ -179,5 +240,16 @@ public class NewEntry extends JFrame implements ActionListener{
             selectedName = namesBox.getSelectedItem().toString().trim();
             System.out.println("\n\nName selected: " + selectedName);
         }
+
+        if(e.getSource() == paymentBox) {
+            if(paymentBox.getSelectedItem().toString().equals("Μετρητά")) {amount.setEditable(true); amount.setText(""); amount.setEnabled(true);}
+            else {amount.setEditable(false); amount.setText("#############"); amount.setEnabled(false);}
+            System.out.println("Way of payment selected: " + paymentBox.getSelectedItem().toString());
+        }
+    }
+
+    public boolean containsOnlyNumbers(String str) {
+        String pattern = "^[0-9,.]*$";
+        return str.matches(pattern);
     }
 }

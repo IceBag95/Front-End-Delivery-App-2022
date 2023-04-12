@@ -24,5 +24,5 @@ public class AppDimentions {
     static Dimension TOTALPANELDIMENSIONS = new Dimension((int) ((FRAMEDIMENSIONS.getWidth() - 400)/2) - 10, (int) FRAMEDIMENSIONS.getHeight() - 280);
 
 
-    static Dimension NEWENTRYFRAMEDIMENSIONS = new Dimension(1000, 200);
+    static Dimension NEWENTRYFRAMEDIMENSIONS = new Dimension(700, 200);
 }
