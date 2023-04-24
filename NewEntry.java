@@ -178,26 +178,6 @@ public class NewEntry extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
-        /*if(command.equalsIgnoreCase("OK")){
-            if (amount.getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Invalid Price.", "", JOptionPane.WARNING_MESSAGE);
-            } 
-            else {
-                String pattern = "^[0-9,.]*$";
-                if (amount.getText().matches(pattern)) {
-                    Float currentamount = Float.parseFloat(amount.getText().trim());
-                    if(currentamount > 0){
-                        //staff must be added
-                        AA++;
-                        mainFrame.setEnabled(true);
-                        this.dispose();
-                    }
-                    else JOptionPane.showMessageDialog(null, "Invalid Price.", "", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Invalid Price.", "", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        }*/
 
         if(command.equalsIgnoreCase("OK")){
             if (amount.getText().trim().isEmpty()) {
@@ -212,6 +192,15 @@ public class NewEntry extends JFrame implements ActionListener{
                     catch (NumberFormatException nfe){
                         JOptionPane.showMessageDialog(null, "Invalid Price.", "", JOptionPane.WARNING_MESSAGE);
                     }
+                    
+                    String currentName = namesBox.getSelectedItem().toString();
+                    
+                    Order order = new Order();
+                    order.setDeliveryName(currentName);
+                    order.setWayOfPayment(paymentBox.getSelectedItem().toString());
+                    order.setAmount(currentamount);
+
+
                     if(currentamount > 0 ){
                         AA++;
                         mainFrame.setEnabled(true);
@@ -225,6 +214,8 @@ public class NewEntry extends JFrame implements ActionListener{
                 }
                 else JOptionPane.showMessageDialog(null, "No Delivery Name Selected.", "", JOptionPane.WARNING_MESSAGE);
                 System.out.println("Current number: " + currentamount);
+
+
             }
         }
         if(command.equalsIgnoreCase("Cancel")){

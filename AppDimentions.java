@@ -25,4 +25,8 @@ public class AppDimentions {
 
 
     static Dimension NEWENTRYFRAMEDIMENSIONS = new Dimension(700, 200);
+
+    static Dimension DELIVERYORDERSMAINPANEL = new Dimension((int) (ORDERPANELDIMENSIONS.getWidth()/2), (int) (ORDERPANELDIMENSIONS.getHeight()/2));
+    static Dimension DELIVERYSCROLLPANEDIMENSIONS = new Dimension((int) (ORDERPANELDIMENSIONS.getWidth()/2) - 100, (int) (ORDERPANELDIMENSIONS.getHeight()/2) - 100);
+
 }

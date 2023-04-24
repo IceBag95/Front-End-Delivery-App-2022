@@ -15,9 +15,13 @@ public class MyFrame extends JFrame implements ActionListener{
     
     JLabel bannerPanLabel, redPanJLabel;
 
-    JPanel totalPanel, orderPanel, bannerPanel, deliveryPanel, parentPanel, childPanel, orderParentPanel;
+    JPanel totalPanel, orderPanel, bannerPanel, deliveryPanel, parentPanel, childPanel, orderParentPanel, orderChildPanel, orderChildPanel1, orderChildPanel2;
 
     JButton addDelivery, registerNames, unlockButton, newOrderButton;
+
+    JScrollPane orderScrollPane;
+
+    DeliveryScrolpane[] scrolpane;
 
     static ArrayList<String> names; 
 
@@ -25,9 +29,13 @@ public class MyFrame extends JFrame implements ActionListener{
 
     static boolean flag = false;
 
-    //static int newOrederTimesClicked = 0;
+    static boolean previousEnding = false;
 
     static boolean isEnabled = true;
+
+    static DeliveryNames[] prevDeliveryNames = null;
+
+    static DeliveryNames[] deliveryNames = null;
 
     public MyFrame(){
         setPreferredSize(AppDimentions.FRAMEDIMENSIONS);
@@ -81,7 +89,7 @@ public class MyFrame extends JFrame implements ActionListener{
 
 
 
-        //create panel foρ orders
+        //create panel for orders
         orderPanel = new JPanel();
         orderPanel.setLayout(null);
         orderPanel.setBounds((int) AppDimentions.FRAMEDIMENSIONS.getWidth() -  ((int) AppDimentions.ORDERPANELDIMENSIONS.getWidth() + 420), 200, (int) AppDimentions.ORDERPANELDIMENSIONS.getWidth(), (int) AppDimentions.ORDERPANELDIMENSIONS.getHeight());
@@ -92,11 +100,31 @@ public class MyFrame extends JFrame implements ActionListener{
         //create panel for order panel scrollPane
         orderParentPanel = new JPanel();
         orderParentPanel.setBorder(BorderFactory.createEmptyBorder());
-        orderParentPanel.setBackground(Color.WHITE);
+        orderParentPanel.setBackground(new Color(240, 240, 240));
+
+
+        // left panel in scroll pane for even numbered Delivery scrollpanes
+        orderChildPanel1 = new JPanel();
+        //orderChildPanel1.setAlignmentX(10);
+        //orderChildPanel1.setAlignmentY(10);
+        orderChildPanel1.setBorder(BorderFactory.createEmptyBorder());
+        orderChildPanel1.setBackground(new Color(240, 240, 240));
+        orderChildPanel1.setLayout(new BoxLayout(orderChildPanel1, BoxLayout.Y_AXIS));
+        orderParentPanel.add(orderChildPanel1);
+        
+        
+        // right panel in scroll pane for odd numbered Delivery scrollpanes
+        orderChildPanel2 = new JPanel();
+        //orderChildPanel2.setAlignmentX((int) (AppDimentions.ORDERPANELDIMENSIONS.getWidth()/2) - 20);
+        //orderChildPanel2.setAlignmentY(-100);
+        orderChildPanel2.setBorder(BorderFactory.createEmptyBorder());
+        orderChildPanel2.setBackground(new Color(240, 240, 240));
+        orderChildPanel2.setLayout(new BoxLayout(orderChildPanel2, BoxLayout.Y_AXIS));
+        orderParentPanel.add(orderChildPanel2);
 
 
         //add scroll to orderPanel
-        JScrollPane orderScrollPane = new JScrollPane(orderParentPanel);
+        orderScrollPane= new JScrollPane(orderParentPanel);
         orderScrollPane.setBounds(
             20,
             20 ,
@@ -106,6 +134,7 @@ public class MyFrame extends JFrame implements ActionListener{
         orderScrollPane.setMaximumSize(AppDimentions.SCROLLPANEDIMENSIONS);
         orderScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         orderScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        orderScrollPane.setEnabled(false);
         orderPanel.add(orderScrollPane);
 
 
@@ -278,6 +307,7 @@ public class MyFrame extends JFrame implements ActionListener{
         if(command.equalsIgnoreCase("REGISTER NAMES")){
             names = new ArrayList<String>();
             workingNames = new ArrayList<String>();
+            
             for (int i = 0; i< childPanel.getComponentCount(); i++){
                 DeliveryNames currentDelivery = (DeliveryNames) childPanel.getComponent(i);
                 String text = currentDelivery.getTaskField().getText();
@@ -291,9 +321,77 @@ public class MyFrame extends JFrame implements ActionListener{
             }
             if (workingNames.size() > 0){
                 //DisableAddDeliveryButtonAndRegisrtyButton();
+                deliveryNames = new DeliveryNames[names.size()];
+                //int k = 0;
+                if (deliveryNames != null) {
+                    prevDeliveryNames = new DeliveryNames[deliveryNames.length];
+                    for (int i = 0; i < deliveryNames.length; i++){
+                        prevDeliveryNames[i] = deliveryNames[i];
+                    }
+                }
+                for (int i =0; i<childPanel.getComponentCount(); i++){
+                    DeliveryNames currentDelivery = (DeliveryNames) childPanel.getComponent(i);
+                    if (currentDelivery.getFlag()) deliveryNames[i] = currentDelivery;
+                    else deliveryNames[i] = null;
+                }
+
+                System.out.println("\n\nDelivery table's names:");
+                for (int i =0; i<deliveryNames.length; i++){
+                    if(deliveryNames[i] != null) System.out.println((i+1) +" "+ deliveryNames[i].getTaskField().getText().trim());
+                    else System.out.println((i+1) + "");
+                }
+
                 addDelivery.setVisible(false);
                 registerNames.setVisible(false);
                 unlockButton.setVisible(true);
+
+                orderParentPanel.remove(orderChildPanel1);               
+                orderParentPanel.remove(orderChildPanel2);
+
+                orderChildPanel1 = new JPanel();
+                //orderChildPanel1.setAlignmentX(10);
+                //orderChildPanel1.setAlignmentY(10);
+                orderChildPanel1.setBorder(BorderFactory.createEmptyBorder());
+                orderChildPanel1.setBackground(new Color(240, 240, 240));
+                orderChildPanel1.setLayout(new BoxLayout(orderChildPanel1, BoxLayout.Y_AXIS));
+                
+                
+                
+                // right panel in scroll pane for odd numbered Delivery scrollpanes
+                orderChildPanel2 = new JPanel();
+                //orderChildPanel2.setAlignmentX((int) (AppDimentions.ORDERPANELDIMENSIONS.getWidth()/2) - 20);
+                //orderChildPanel2.setAlignmentY(-100);
+                orderChildPanel2.setBorder(BorderFactory.createEmptyBorder());
+                orderChildPanel2.setBackground(new Color(240, 240, 240));
+                orderChildPanel2.setLayout(new BoxLayout(orderChildPanel2, BoxLayout.Y_AXIS));
+                
+                
+                orderParentPanel.add(orderChildPanel1);
+                orderParentPanel.add(orderChildPanel2);
+
+
+                scrolpane = new DeliveryScrolpane[names.size()];
+                
+                int k = 0;
+                for (int i = 0; i <names.size(); i++){
+                    scrolpane[i] = new DeliveryScrolpane();
+                    scrolpane[i].getNameLabel().setText(names.get(i).trim());
+                    if (workingNames.contains(scrolpane[i].getNameLabel().getText())){
+                        scrolpane[i].GetMainPanel().setVisible(true);
+                        if (k%2 ==0) orderChildPanel1.add(scrolpane[i].GetMainPanel());
+                        else orderChildPanel2.add(scrolpane[i].GetMainPanel());
+                        k++;
+                    }
+                }
+
+                if (workingNames.size() % 2 == 1){
+                    JPanel fake = new JPanel();
+                    fake.setPreferredSize(AppDimentions.DELIVERYORDERSMAINPANEL);
+                    fake.setLayout(null);
+                    fake.setBackground(new Color(240, 240, 240));
+                    orderChildPanel2.add(fake);
+                }
+                
                 newOrderButton.setEnabled(true);
 
                 revalidate();
@@ -302,6 +400,8 @@ public class MyFrame extends JFrame implements ActionListener{
                 System.out.println("\nWorking names:");
                 for (int i = 0; i < workingNames.size(); i++){
                     System.out.println(workingNames.get(i));
+                    //System.out.println(deliveryNames[i].getTaskField().getText());
+                    
                 }
                 System.out.println("\nRegistered names:");
                 for (int i = 0; i < childPanel.getComponentCount(); i++){
@@ -338,6 +438,7 @@ public class MyFrame extends JFrame implements ActionListener{
             addDelivery.setVisible(true);
             registerNames.setVisible(true);
             unlockButton.setVisible(false);
+            orderScrollPane.setEnabled(false);
             newOrderButton.setEnabled(false);
             revalidate();
             repaint();
@@ -379,6 +480,27 @@ public class MyFrame extends JFrame implements ActionListener{
         }
     }
 
+    public JPanel GetOrderChildPanel1(){
+        return orderChildPanel1;
+    }
+
+    public JPanel GetOrderChildPanel2(){
+        return orderChildPanel2;
+    }
+
+    public void SetOrderChildPanel1(){
+        orderChildPanel1.setBorder(BorderFactory.createEmptyBorder());
+        orderChildPanel1.setBackground(new Color(240, 240, 240));
+        orderChildPanel1.setLayout(new BoxLayout(orderChildPanel1, BoxLayout.Y_AXIS));
+        orderParentPanel.add(orderChildPanel1);
+    }
+
+    public void SetOrderChildPanel2(){
+        orderChildPanel2.setBorder(BorderFactory.createEmptyBorder());
+        orderChildPanel2.setBackground(new Color(240, 240, 240));
+        orderChildPanel2.setLayout(new BoxLayout(orderChildPanel2, BoxLayout.Y_AXIS));
+        orderParentPanel.add(orderChildPanel2);
+    }
 
     public  static ArrayList<String> getNames(){
         return names;
@@ -386,5 +508,13 @@ public class MyFrame extends JFrame implements ActionListener{
 
     public  static ArrayList<String> getWorkingNames(){
         return workingNames;
+    }
+
+    public  static DeliveryNames getDeliveryNames(int i){
+        return deliveryNames[i];
+    }
+
+    public static boolean GetPreviousEnding(){
+        return previousEnding;
     }
 }

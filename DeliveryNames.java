@@ -18,11 +18,12 @@ import javax.swing.*;
 public class DeliveryNames extends JPanel implements ActionListener {
     
     int index;
-    private JTextField taskField;
-    private JButton deleteButton, addButton;
+    JTextField taskField;
+    JButton deleteButton, addButton;
     Font font;
     String fontfamily;
     boolean enabledTaskfield;
+    ArrayList<Order> deliveryOrders = new ArrayList<Order>();
     static ArrayList<String> checkednames = new ArrayList<String>();
     static int noclicks = 0;
     boolean flag = false;
@@ -84,7 +85,7 @@ public class DeliveryNames extends JPanel implements ActionListener {
 
         taskField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                if(taskField.getText() != null && taskField.getText().length() >= 20 && !(evt.getKeyChar()==KeyEvent.VK_DELETE||evt.getKeyChar()==KeyEvent.VK_BACK_SPACE)) {
+                if(taskField.getText() != null && taskField.getText().length() >= 15 && !(evt.getKeyChar()==KeyEvent.VK_DELETE||evt.getKeyChar()==KeyEvent.VK_BACK_SPACE)) {
                     getToolkit().beep();
                     evt.consume();
                 }
@@ -195,9 +196,17 @@ public class DeliveryNames extends JPanel implements ActionListener {
     public void SetIndex(){
         index = noclicks;
     }
+    
+    public void AddOrder(Order order){
+        deliveryOrders.add(order);
+    }
 
     public boolean getFlag(){
         return flag;
+    }
+
+    public ArrayList<Order> getDeliveryOrderList(){
+        return deliveryOrders;
     }
 
 }
