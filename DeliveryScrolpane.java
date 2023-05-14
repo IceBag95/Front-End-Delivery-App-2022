@@ -99,4 +99,8 @@ public class DeliveryScrolpane implements ActionListener{
     public JPanel GetMainPanel(){
         return mainpanel;
     }
+
+    public JPanel GetChildnPanel(){
+        return childPanel;
+    }
 }

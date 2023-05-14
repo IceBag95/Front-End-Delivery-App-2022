@@ -182,7 +182,9 @@ public class NewEntry extends JFrame implements ActionListener{
         if(command.equalsIgnoreCase("OK")){
             if (amount.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Invalid Price.", "", JOptionPane.WARNING_MESSAGE);
-            } 
+            }
+            else if (namesBox.getSelectedItem().toString().equals("")) JOptionPane.showMessageDialog(null, "Invalid Name.", "", JOptionPane.WARNING_MESSAGE);
+            else if (paymentBox.getSelectedItem().toString().equals("")) JOptionPane.showMessageDialog(null, "Invalid Name.", "", JOptionPane.WARNING_MESSAGE);
             else {
                 currentamount = 0f;
                 if(paymentBox.getSelectedItem().toString().equals("Μετρητά")){
@@ -195,10 +197,31 @@ public class NewEntry extends JFrame implements ActionListener{
                     
                     String currentName = namesBox.getSelectedItem().toString();
                     
+
+                    //create Order for delivery
                     Order order = new Order();
                     order.setDeliveryName(currentName);
                     order.setWayOfPayment(paymentBox.getSelectedItem().toString());
                     order.setAmount(currentamount);
+
+                    
+                    //search and assign order to delivery
+
+                    for(int i = 0; i<MyFrame.deliveryNames.length; i++){
+                        if (MyFrame.getDeliveryNames(i)!= null && currentName.equals(MyFrame.getDeliveryNames(i).getTaskField().getText().trim())){
+                            MyFrame.getDeliveryNames(i).AddOrder(order);
+                            int n =  MyFrame.getDeliveryNames(i).getDeliveryOrderList().size() -1;
+                            System.out.println("\n\nOrder with specifics:");
+                            System.out.println("Delivery Name: " + MyFrame.getDeliveryNames(i).getDeliveryOrderList().get(n).getDeliveryName() );
+                            System.out.println("Way Of Payment: " +  MyFrame.getDeliveryNames(i).getDeliveryOrderList().get(n).getWayOfPayment() );
+                            System.out.println("Amount: " +  MyFrame.getDeliveryNames(i).getDeliveryOrderList().get(n).getAmount());
+                            System.out.println("...Has been added to the object");
+                            break;
+
+                        }
+
+                    }
+
 
 
                     if(currentamount > 0 ){

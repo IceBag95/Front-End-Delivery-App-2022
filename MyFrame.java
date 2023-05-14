@@ -21,7 +21,7 @@ public class MyFrame extends JFrame implements ActionListener{
 
     JScrollPane orderScrollPane;
 
-    DeliveryScrolpane[] scrolpane;
+    static DeliveryScrolpane[] scrolpane;
 
     static ArrayList<String> names; 
 
@@ -488,19 +488,6 @@ public class MyFrame extends JFrame implements ActionListener{
         return orderChildPanel2;
     }
 
-    public void SetOrderChildPanel1(){
-        orderChildPanel1.setBorder(BorderFactory.createEmptyBorder());
-        orderChildPanel1.setBackground(new Color(240, 240, 240));
-        orderChildPanel1.setLayout(new BoxLayout(orderChildPanel1, BoxLayout.Y_AXIS));
-        orderParentPanel.add(orderChildPanel1);
-    }
-
-    public void SetOrderChildPanel2(){
-        orderChildPanel2.setBorder(BorderFactory.createEmptyBorder());
-        orderChildPanel2.setBackground(new Color(240, 240, 240));
-        orderChildPanel2.setLayout(new BoxLayout(orderChildPanel2, BoxLayout.Y_AXIS));
-        orderParentPanel.add(orderChildPanel2);
-    }
 
     public  static ArrayList<String> getNames(){
         return names;
