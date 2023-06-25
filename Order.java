@@ -1,5 +1,6 @@
 public class Order {
     
+    int count;
     String deliveryName;
     String wayOfPayment;
     float amount = 0;
@@ -15,6 +16,10 @@ public class Order {
     public void setAmount(float am){
         amount = am;
     }
+
+    public void setNumber(int x){
+        count = x;
+    }
     
     public String getDeliveryName(){
         return deliveryName;
@@ -27,6 +32,12 @@ public class Order {
     public float getAmount(){
         return amount;
     }
+
+    public int getNumber(){
+        return count;
+    }
+
+
 
 
 

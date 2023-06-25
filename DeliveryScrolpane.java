@@ -31,8 +31,7 @@ public class DeliveryScrolpane implements ActionListener{
         
         
         childPanel = new JPanel();
-        //childPanel.setLayout(new BoxLayout(childPanel, BoxLayout.Y_AXIS));
-        childPanel.setLayout(null);
+        childPanel.setLayout(new BoxLayout(childPanel, BoxLayout.Y_AXIS));
         childPanel.setBorder(BorderFactory.createEmptyBorder());
         childPanel.setBackground(Color.WHITE);
         parentPanel.add(childPanel);

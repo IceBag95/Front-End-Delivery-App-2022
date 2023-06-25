@@ -133,11 +133,11 @@ public class DeliveryNames extends JPanel implements ActionListener {
         if(e.getActionCommand().equalsIgnoreCase("REGISTER")){
             flag = true;
             checkednames.add(this.getTaskField().getText());
-            addButton.setText("REMOVE");
+            addButton.setText(" REMOVE ");
             addButton.setBackground(new Color(230, 148, 2));
         }
 
-        if(e.getActionCommand().equalsIgnoreCase("REMOVE")){
+        if(e.getActionCommand().equalsIgnoreCase(" REMOVE ")){
             flag = false;
             checkednames.remove(this.getTaskField().getText());
             addButton.setText("REGISTER");

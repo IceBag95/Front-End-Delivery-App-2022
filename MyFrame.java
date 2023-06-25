@@ -38,6 +38,7 @@ public class MyFrame extends JFrame implements ActionListener{
     static DeliveryNames[] deliveryNames = null;
 
     public MyFrame(){
+        setTitle("Delivery Manager");
         setPreferredSize(AppDimentions.FRAMEDIMENSIONS);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
@@ -487,6 +488,15 @@ public class MyFrame extends JFrame implements ActionListener{
     public JPanel GetOrderChildPanel2(){
         return orderChildPanel2;
     }
+
+    public static DeliveryScrolpane[] getDeliveryScrolpane(){
+        return scrolpane;
+    }
+
+    public static DeliveryScrolpane getDeliveryScrolpane(int i){
+        return scrolpane[i];
+    }
+
 
 
     public  static ArrayList<String> getNames(){
