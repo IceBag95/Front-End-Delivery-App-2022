@@ -24,10 +24,18 @@ public class NewEntry extends JFrame implements ActionListener{
     String[] names;
     JComboBox<String> namesBox, paymentBox;
     String selectedName;
-    static Integer AA = 1;
     JTextField amount;
     Float currentamount;
+    static Integer AA = 1;
+    
 
+    /*
+    =================================
+     *** NewEntry FRAME CREATION ***
+    =================================
+     */
+
+     
     public NewEntry(MyFrame mf){
 
         setSize(AppDimentions.NEWENTRYFRAMEDIMENSIONS);
@@ -74,11 +82,12 @@ public class NewEntry extends JFrame implements ActionListener{
         ================================
         */
 
-
+        // Α/Α Label
         JLabel numberOfOrderLabel = new JLabel("A/A:");
         numberOfOrderLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         numberOfOrderLabel.setBounds(20, 15, 30, 30);
 
+        // Actual A/A
         JLabel numberOfOrder = new JLabel();
         numberOfOrder.setFont(new Font("Consolas", Font.BOLD, 16));
         numberOfOrder.setBounds(20, 40, 30, 30);
@@ -88,38 +97,36 @@ public class NewEntry extends JFrame implements ActionListener{
         numberOfOrder.setOpaque(true);
         numberOfOrder.setVerticalAlignment(SwingConstants.BOTTOM);
 
-
+        // Delivery name Label
         JLabel deliveryNameLabel = new JLabel("Delivery Name:");
         deliveryNameLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         deliveryNameLabel.setBounds(70, 15, 200, 30);
 
+        // Way of payment Label
         JLabel wayOfPaymentLabel = new JLabel("Way of Payment:");
         wayOfPaymentLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         wayOfPaymentLabel.setBounds(290, 15, 200, 30);
 
+        // Amount Label
         JLabel amountLabel = new JLabel("Amount:");
         amountLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         amountLabel.setBounds(510, 15, 130, 30);
 
-        /* 
-        JLabel tipsLabel = new JLabel("Tips");
-        tipsLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        tipsLabel.setBounds(20, 15, 30, 30);
-        */
-
+        // Amount Textfield initially Locked
         amount = new JTextField();
         amount.setBounds(510, 40, 130, 30);
         amount.setText("#############");
         amount.setEditable(false);
         amount.setEnabled(false);
 
-
+        // Names Dropbox Initial Choice Empty
         namesBox = new JComboBox<String>(names);
         namesBox.insertItemAt("", 0);
         namesBox.setSelectedIndex(0);
         namesBox.setBounds(70, 40, 200, 30);
         namesBox.addActionListener(this);
 
+        // Way of payment Dropbox Initial Choice Empty
         String[] WOP = {"","Κάρτα","Μετρητά"};
         paymentBox = new JComboBox<String>(WOP);
         paymentBox.setSelectedIndex(0);
@@ -147,7 +154,7 @@ public class NewEntry extends JFrame implements ActionListener{
         ====================================
         */
 
-
+        // OK Button
         okButton = new JButton("OK");
         okButton.setBounds(200,120,100,30);
         okButton.setFocusable(false);
@@ -157,7 +164,7 @@ public class NewEntry extends JFrame implements ActionListener{
         okButton.setBorderPainted(false);
         okButton.addActionListener(this);
 
-
+        // Cancel Button
         cancelButton = new JButton("Cancel");
         cancelButton.setBounds(380,120,100,30);
         cancelButton.setFocusable(false);
@@ -168,12 +175,19 @@ public class NewEntry extends JFrame implements ActionListener{
         cancelButton.addActionListener(this);
 
 
-
+        // Adding our Staff to panel
         this.getContentPane().add(entryPanel);
         this.getContentPane().add(okButton);
         this.getContentPane().add(cancelButton);
 
     }
+
+
+    /*
+    =====================
+    *** NewEntry LOGIC ***
+    =====================
+    */
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -186,13 +200,15 @@ public class NewEntry extends JFrame implements ActionListener{
             else if (namesBox.getSelectedItem().toString().equals("")) JOptionPane.showMessageDialog(null, "Invalid Name.", "", JOptionPane.WARNING_MESSAGE);
             else if (paymentBox.getSelectedItem().toString().equals("")) JOptionPane.showMessageDialog(null, "Invalid Name.", "", JOptionPane.WARNING_MESSAGE);
             else {
+                boolean errorflag = false;
                 currentamount = 0f;
-                if(paymentBox.getSelectedItem().toString().equals("Μετρητά")){
+                if(paymentBox.getSelectedItem().toString().equals("Μετρητά") || paymentBox.getSelectedItem().toString().equals("Κάρτα")){
                     try{
                         currentamount = Float.parseFloat(amount.getText().trim());
                     }
                     catch (NumberFormatException nfe){
                         JOptionPane.showMessageDialog(null, "Invalid Price.", "", JOptionPane.WARNING_MESSAGE);
+                        errorflag = true;
                     }
                     
                     String currentName = namesBox.getSelectedItem().toString();
@@ -200,13 +216,16 @@ public class NewEntry extends JFrame implements ActionListener{
 
                     //create Order for delivery
                     Order order = new Order();
+                    order.setNumber(AA);
                     order.setDeliveryName(currentName);
                     order.setWayOfPayment(paymentBox.getSelectedItem().toString());
                     order.setAmount(currentamount);
 
                     
+                    
+                    
                     //search and assign order to delivery
-
+                    
                     for(int i = 0; i<MyFrame.deliveryNames.length; i++){
                         if (MyFrame.getDeliveryNames(i)!= null && currentName.equals(MyFrame.getDeliveryNames(i).getTaskField().getText().trim())){
                             MyFrame.getDeliveryNames(i).AddOrder(order);
@@ -217,24 +236,32 @@ public class NewEntry extends JFrame implements ActionListener{
                             System.out.println("Amount: " +  MyFrame.getDeliveryNames(i).getDeliveryOrderList().get(n).getAmount());
                             System.out.println("...Has been added to the object");
                             break;
-
+                            
                         }
-
+                        
                     }
-
-
-
+                    
+                    
+                    
                     if(currentamount > 0 ){
+                        for(int i = 0; i< MyFrame.getDeliveryScrolpane().length; i++){
+                            System.out.println(MyFrame.getDeliveryScrolpane(i).getNameLabel().getText());
+                            if (currentName.equals(MyFrame.getDeliveryScrolpane(i).getNameLabel().getText())){
+                                OrderLabel orderLabel = new OrderLabel(order, MyFrame.getDeliveryScrolpane(i).GetChildnPanel());
+                                JPanel currentPanel =  MyFrame.getDeliveryScrolpane(i).GetChildnPanel();
+                                currentPanel.repaint();
+                                currentPanel.revalidate();
+                                break;
+                            }
+                        }
                         AA++;
                         mainFrame.setEnabled(true);
                         this.dispose();
                     }
+                    else if(currentamount <= 0 && errorflag == false) JOptionPane.showMessageDialog(null, "Invalid Price.", "", JOptionPane.WARNING_MESSAGE);
+
                 }
-                else if(paymentBox.getSelectedItem().toString().equals("Κάρτα")){
-                    AA++;
-                    mainFrame.setEnabled(true);
-                    this.dispose();
-                }
+
                 else JOptionPane.showMessageDialog(null, "No Delivery Name Selected.", "", JOptionPane.WARNING_MESSAGE);
                 System.out.println("Current number: " + currentamount);
 
@@ -256,7 +283,7 @@ public class NewEntry extends JFrame implements ActionListener{
         }
 
         if(e.getSource() == paymentBox) {
-            if(paymentBox.getSelectedItem().toString().equals("Μετρητά")) {amount.setEditable(true); amount.setText(""); amount.setEnabled(true);}
+            if(paymentBox.getSelectedItem().toString().equals("Μετρητά") || (paymentBox.getSelectedItem().toString().equals("Κάρτα"))) {amount.setEditable(true); amount.setText(""); amount.setEnabled(true);}
             else {amount.setEditable(false); amount.setText("#############"); amount.setEnabled(false);}
             System.out.println("Way of payment selected: " + paymentBox.getSelectedItem().toString());
         }
