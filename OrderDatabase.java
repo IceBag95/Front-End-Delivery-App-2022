@@ -23,13 +23,13 @@ public class OrderDatabase extends AbstractDatabase {
             statement = connection.createStatement();
 
             // Δημιουργία του πίνακα για το συγκεκριμένο delivery name (παράδειγμα)
-            String createTableQuery = "CREATE TABLE IF NOT EXISTS orders" + dateString + "(" +
-                    "id INT PRIMARY KEY AUTO_INCREMENT = NewEntry.AA," +
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS ORDERS_" + dateString + "(" +
+                    "ORDER_ID INT PRIMARY KEY AUTO_INCREMENT," +
                     "number INT," +
                     "delivery_name VARCHAR(100)," +
                     "way_of_payment VARCHAR(50)," +
                     "amount DECIMAL(5, 2)" +
-                    ")";
+                    ")"; 
             statement.executeUpdate(createTableQuery);
 
         } catch (SQLException e) {

@@ -47,10 +47,10 @@ public class CatalogDatabase extends AbstractDatabase{
             statement = connection.createStatement();
 
             //Κατηγοριοποίηση παραμέτρων
-            String product_name = parameters[1];
-            float product_price = Float.parseFloat(parameters[2]);
+            String product_name = parameters[0];
+            float product_price = Float.parseFloat(parameters[1]);
 
-
+ 
             // Δημιουργία του πίνακα catalog
             String insertNewRow = "INSERT INTO CATALOG (" +
                     "VALUES (" + product_name + "," + product_price+ ")"+
@@ -78,7 +78,7 @@ public class CatalogDatabase extends AbstractDatabase{
     public void Delete(String[] parameters) {
        try {
 
-            // Σύνδεση με την νέα βάση δεδομένων
+            // Σύνδεση με την βάση δεδομένων
             String deliveryDbUrl = DB_URL;
             connection = DriverManager.getConnection(deliveryDbUrl, DB_USER, DB_PASSWORD);
             statement = connection.createStatement();

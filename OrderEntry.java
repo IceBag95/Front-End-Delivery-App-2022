@@ -7,11 +7,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 
-public class OrderLabel extends JPanel {
+public class OrderEntry extends JPanel {
     
     JLabel wayOfPayment;
 
-    public OrderLabel(Order order, JPanel parent){
+    public OrderEntry(Order order, JPanel parent){
 
         //JPanel panel = new JPanel();
         setBackground(Color.WHITE);

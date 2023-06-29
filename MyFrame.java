@@ -25,8 +25,10 @@ public class MyFrame extends JFrame implements ActionListener{
     JButton addDelivery, registerNames, unlockButton, newOrderButton;
 
     JScrollPane orderScrollPane;
+    
     CustomerDatabase customerDB;
     CatalogDatabase catalogDB;
+    DeliveryDatabase deliveryDB;
 
     static DeliveryScrolpane[] scrolpane;
 
@@ -58,6 +60,7 @@ public class MyFrame extends JFrame implements ActionListener{
         CreateDBifNeeded();
         customerDB = new CustomerDatabase();
         catalogDB = new CatalogDatabase();
+        deliveryDB = new DeliveryDatabase();
         retrieveData();
 
     }

@@ -247,7 +247,7 @@ public class NewEntry extends JFrame implements ActionListener{
                         for(int i = 0; i< MyFrame.getDeliveryScrolpane().length; i++){
                             System.out.println(MyFrame.getDeliveryScrolpane(i).getNameLabel().getText());
                             if (currentName.equals(MyFrame.getDeliveryScrolpane(i).getNameLabel().getText())){
-                                OrderLabel orderLabel = new OrderLabel(order, MyFrame.getDeliveryScrolpane(i).GetChildnPanel());
+                                OrderEntry orderLabel = new OrderEntry(order, MyFrame.getDeliveryScrolpane(i).GetChildnPanel());
                                 JPanel currentPanel =  MyFrame.getDeliveryScrolpane(i).GetChildnPanel();
                                 currentPanel.repaint();
                                 currentPanel.revalidate();
@@ -292,5 +292,9 @@ public class NewEntry extends JFrame implements ActionListener{
     public boolean containsOnlyNumbers(String str) {
         String pattern = "^[0-9,.]*$";
         return str.matches(pattern);
+    }
+
+    public static int getAA(){
+        return AA;
     }
 }
