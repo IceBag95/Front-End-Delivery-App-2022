@@ -3,12 +3,17 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Statement;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MyFrame extends JFrame implements ActionListener{
@@ -20,6 +25,8 @@ public class MyFrame extends JFrame implements ActionListener{
     JButton addDelivery, registerNames, unlockButton, newOrderButton;
 
     JScrollPane orderScrollPane;
+    CustomerDatabase customerDB;
+    CatalogDatabase catalogDB;
 
     static DeliveryScrolpane[] scrolpane;
 
@@ -33,11 +40,12 @@ public class MyFrame extends JFrame implements ActionListener{
 
     static boolean isEnabled = true;
 
-    static DeliveryNames[] prevDeliveryNames = null;
+    static DeliveryNames[] prevDeliveryNames = null; // !!!!!!!!!!!!!
 
-    static DeliveryNames[] deliveryNames = null;
+    static DeliveryNames[] deliveryNames = null; // !!!!!!!!!!!!!!!!!
 
     public MyFrame(){
+        
         setPreferredSize(AppDimentions.FRAMEDIMENSIONS);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
@@ -47,6 +55,9 @@ public class MyFrame extends JFrame implements ActionListener{
         setBackground(Color.RED); //title bar color
         setLayout(null);
         AddComponents();
+        CreateDBifNeeded();
+        customerDB = new CustomerDatabase();
+        catalogDB = new CatalogDatabase();
         retrieveData();
 
     }
@@ -503,5 +514,49 @@ public class MyFrame extends JFrame implements ActionListener{
 
     public static boolean GetPreviousEnding(){
         return previousEnding;
+    }
+
+    public void CreateDBifNeeded(){
+        String dbUrl = AbstractDatabase.DB_URL;
+        String dbUser = AbstractDatabase.DB_USER;
+        String dbPassword = AbstractDatabase.DB_PASSWORD;
+
+        try {
+            // Σύνδεση με τον MySQL server
+            Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+            Statement statement = connection.createStatement();
+
+            // Εκτέλεση της εντολής για να λάβουμε όλες τις βάσεις δεδομένων
+            ResultSet resultSet = statement.executeQuery("SHOW DATABASES");
+
+            boolean databaseExists = false;
+            while (resultSet.next()) {
+                String databaseName = resultSet.getString(1);   // επιστρέφει σε 1 στήλη όλα τα αποτελέσματα ονομάτων βάσεων δεδομένων που
+								// είναι αποθηκευμένα στον local host
+
+                // Έλεγχος αν το όνομα "MYDB" υπάρχει
+                if (databaseName.equals("MYDB")) {
+                    databaseExists = true;
+                    break;
+                }
+            }
+
+            if (databaseExists) {
+                System.out.println("Η βάση δεδομένων υπάρχει.");
+            } else {
+                System.out.println("Η βάση δεδομένων δεν υπάρχει.");
+
+                // Κώδικας για τη δημιουργία της βάσης δεδομένων
+                statement.executeUpdate("CREATE DATABASE MYDB;");
+                System.out.println("Η βάση δεδομένων δημιουργήθηκε.");
+            }
+
+            // Κλείσιμο των ανοικτών συνδέσεων
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

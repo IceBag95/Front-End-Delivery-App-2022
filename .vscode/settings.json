@@ -1,0 +1,12 @@
+{
+    "java.configuration.runtimes": [
+      {
+        "name": "JavaSE-1.8",
+        "path": "<path_to_jdk>/bin/java",
+        "default": true
+      }
+    ],
+    "java.project.referencedLibraries": [
+        "C:\\Users\\gprel\\Documents\\mysql-connector-java-5.1.46\\mysql-connector-java-5.1.46.jar"
+    ]
+  }
