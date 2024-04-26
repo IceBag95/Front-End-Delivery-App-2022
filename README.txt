@@ -4,5 +4,5 @@ I intend revisit in in the future.
 For the moment, this project is uploaded because there are some things 
 that are executed ok.
 Also if you download and run the app you will see the no DB version. 
-I was working on the DB part and never got to finish it. If I get to 
-find time i will finsh it though.
+There is code in this project that was intented to be used for the DB part 
+but I never got to finish it. If I get to find time though I will finsh it.
