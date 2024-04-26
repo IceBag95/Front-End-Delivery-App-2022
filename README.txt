@@ -1,3 +1,8 @@
-This project is abandoned because it became quite chaotic. 
-I might revisit in in the future.
-It is uploaded because there are some things that are executed ok
+This project is at the moment abandoned because it became quite chaotic
+and my time to refactor things in it is limited. 
+I intend revisit in in the future.
+For the moment, this project is uploaded because there are some things 
+that are executed ok.
+Also if you download and run the app you will see the no DB version. 
+I was working on the DB part and never got to finish it. If I get to 
+find time i will finsh it though.
